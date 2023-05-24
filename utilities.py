@@ -299,18 +299,11 @@ def create_pdf(node: Node, filename):
             print("there was an error in deleting files {i}, error is\n{e}")
 
 
-class NodePruned:
-    to_tikz = Node.to_tikz
-    to_tikz_ = Node.to_tikz_
-    predict = Node.predict
-    accuracy = Node.accuracy
-    __getitem__ = Node.__getitem__
-    __repr__ = Node.__repr__
-    # NOTE: we cant use inheritance because we don't want to run the Node.__init__ function
-
+class NodePruned(Node):
     children: dict[int, 'NodePruned']
 
     def __init__(self, data, cost_func=None, class_col="class", parent=None, max_cost=None, min_depth=None):
+        # Since we don't need to run Node.__init__, we dont call super().__init__ here
         if cost_func is None:
             cost_func = Node.entropy
         self.output = None
